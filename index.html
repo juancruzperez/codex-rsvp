@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RSVP Reader</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="hero" aria-labelledby="app-title">
+        <p class="eyebrow">Rapid Serial Visual Presentation</p>
+        <h1 id="app-title">RSVP Reader</h1>
+        <p>
+          Carga un documento de texto, ajusta la velocidad y lee palabra por
+          palabra en una zona de enfoque diseñada para minimizar distracciones.
+        </p>
+      </section>
+
+      <section class="panel controls" aria-label="Carga y configuración">
+        <div class="field-group">
+          <label for="document-input">Cargar documento</label>
+          <input id="document-input" type="file" accept=".txt,.md,.csv,.json,.html,.xml,text/*" />
+          <small>Formatos soportados en el navegador: texto plano, Markdown, CSV, JSON, HTML y XML.</small>
+        </div>
+
+        <div class="field-group">
+          <label for="text-source">Texto de entrada</label>
+          <textarea id="text-source" rows="9" placeholder="Pega aquí tu texto o carga un documento..."></textarea>
+        </div>
+
+        <div class="settings-grid">
+          <div class="field-group">
+            <label for="speed-range">Velocidad: <output id="speed-output">300</output> ppm</label>
+            <input id="speed-range" type="range" min="100" max="900" step="25" value="300" />
+          </div>
+
+          <div class="field-group">
+            <label for="chunk-size">Palabras por pantalla</label>
+            <select id="chunk-size">
+              <option value="1" selected>1 palabra</option>
+              <option value="2">2 palabras</option>
+              <option value="3">3 palabras</option>
+              <option value="4">4 palabras</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="button-row">
+          <button id="generate-output" type="button">Generar salida</button>
+          <button id="play-pause" type="button" disabled>Reproducir</button>
+          <button id="restart" type="button" disabled>Reiniciar</button>
+        </div>
+      </section>
+
+      <section class="panel reader" aria-live="polite" aria-label="Salida RSVP">
+        <div class="reader-window">
+          <span class="focus-mark" aria-hidden="true"></span>
+          <output id="rsvp-output">Carga o pega un texto para comenzar</output>
+          <span class="focus-mark bottom" aria-hidden="true"></span>
+        </div>
+        <progress id="reading-progress" max="100" value="0">0%</progress>
+        <p id="reading-status">0 palabras listas</p>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
