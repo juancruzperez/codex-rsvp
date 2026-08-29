@@ -20,8 +20,8 @@
       <section class="panel controls" aria-label="Carga y configuración">
         <div class="field-group">
           <label for="document-input">Cargar documento</label>
-          <input id="document-input" type="file" accept=".txt,.md,.csv,.json,.html,.xml,text/*" />
-          <small>Formatos soportados en el navegador: texto plano, Markdown, CSV, JSON, HTML y XML.</small>
+          <input id="document-input" type="file" accept=".txt,.md,.csv,.json,.html,.xml,.pdf,.docx,text/*,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
+          <small>Formatos soportados: texto plano, Markdown, CSV, JSON, HTML, XML, PDF y DOCX.</small>
         </div>
 
         <div class="field-group">
@@ -64,6 +64,7 @@
       </section>
     </main>
 
+    <script src="https://unpkg.com/mammoth@1.9.1/mammoth.browser.min.js"></script>
     <script src="script.js"></script>
   </body>
 </html>
