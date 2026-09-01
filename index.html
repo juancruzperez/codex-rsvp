@@ -3,66 +3,79 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>RSVP Reader</title>
+    <meta name="theme-color" content="#f7f7f5" />
+    <title>claridad — lector RSVP</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <main class="app-shell">
-      <section class="hero" aria-labelledby="app-title">
-        <p class="eyebrow">Rapid Serial Visual Presentation</p>
-        <h1 id="app-title">RSVP Reader</h1>
-        <p>
-          Carga un documento de texto, ajusta la velocidad y lee palabra por
-          palabra en una zona de enfoque diseñada para minimizar distracciones.
-        </p>
+      <header class="site-header">
+        <a class="wordmark" href="#" aria-label="Claridad, inicio">claridad<span>•</span></a>
+        <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Activar modo oscuro" aria-pressed="false">
+          <span aria-hidden="true">☼</span><span class="theme-label">Claro</span>
+        </button>
+      </header>
+
+      <section class="intro" aria-labelledby="app-title">
+        <p class="eyebrow">Lectura sin fricción</p>
+        <h1 id="app-title">Una palabra.<br /><em>Toda tu atención.</em></h1>
+        <p class="lede">Convierte cualquier texto en una lectura rápida, limpia y concentrada.</p>
       </section>
 
-      <section class="panel controls" aria-label="Carga y configuración">
-        <div class="field-group">
-          <label for="document-input">Cargar documento</label>
-          <input id="document-input" type="file" accept=".txt,.md,.csv,.json,.html,.xml,.pdf,.docx,text/*,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
-          <small>Formatos soportados: texto plano, Markdown, CSV, JSON, HTML, XML, PDF y DOCX.</small>
+      <section class="workspace" aria-label="Prepara tu lectura">
+        <div id="upload-block" class="upload-block">
+          <label class="upload-card" for="document-input">
+            <span class="upload-icon" aria-hidden="true">↑</span>
+            <span><strong>Sube un documento</strong><small>PDF, Word o TXT</small></span>
+            <span class="browse">Explorar</span>
+          </label>
+          <input id="document-input" type="file" accept=".txt,.pdf,.docx,text/plain,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
+          <p id="file-status" class="file-status">o pega tu texto a continuación</p>
         </div>
 
-        <div class="field-group">
-          <label for="text-source">Texto de entrada</label>
-          <textarea id="text-source" rows="9" placeholder="Pega aquí tu texto o carga un documento..."></textarea>
+        <div class="text-field">
+          <label for="text-source">Texto</label>
+          <textarea id="text-source" rows="9" placeholder="Pega aquí lo que quieres leer..."></textarea>
+          <span id="word-count">0 palabras</span>
         </div>
 
-        <div class="settings-grid">
-          <div class="field-group">
-            <label for="speed-range">Velocidad: <output id="speed-output">300</output> ppm</label>
+        <div class="settings" aria-label="Ajustes de lectura">
+          <div class="setting">
+            <div class="setting-heading"><label for="speed-range">Velocidad</label><output id="speed-output">300</output><span>ppm</span></div>
             <input id="speed-range" type="range" min="100" max="900" step="25" value="300" />
+            <div class="range-labels"><span>100</span><span>900</span></div>
           </div>
-
-          <div class="field-group">
-            <label for="chunk-size">Palabras por pantalla</label>
-            <select id="chunk-size">
-              <option value="1" selected>1 palabra</option>
-              <option value="2">2 palabras</option>
-              <option value="3">3 palabras</option>
-              <option value="4">4 palabras</option>
-            </select>
+          <div class="setting">
+            <label>Palabras por pantalla</label>
+            <div id="chunk-size" class="segmented-control" role="group" aria-label="Palabras por pantalla">
+              <button type="button" data-size="1" aria-pressed="true">1</button>
+              <button type="button" data-size="2" aria-pressed="false">2</button>
+              <button type="button" data-size="3" aria-pressed="false">3</button>
+            </div>
           </div>
         </div>
 
-        <div class="button-row">
-          <button id="generate-output" type="button">Generar salida</button>
-          <button id="play-pause" type="button" disabled>Reproducir</button>
-          <button id="restart" type="button" disabled>Reiniciar</button>
-        </div>
-      </section>
-
-      <section class="panel reader" aria-live="polite" aria-label="Salida RSVP">
-        <div class="reader-window">
-          <span class="focus-mark" aria-hidden="true"></span>
-          <output id="rsvp-output">Carga o pega un texto para comenzar</output>
-          <span class="focus-mark bottom" aria-hidden="true"></span>
-        </div>
-        <progress id="reading-progress" max="100" value="0">0%</progress>
-        <p id="reading-status">0 palabras listas</p>
+        <button id="start-reading" class="start-button" type="button" disabled>
+          <span>Comenzar lectura</span><span aria-hidden="true">→</span>
+        </button>
       </section>
     </main>
+
+    <dialog id="reader-modal" class="reader-modal" aria-label="Lector RSVP a pantalla completa">
+      <div class="reading-stage" aria-live="polite">
+        <button id="close-reader" class="close-reader" type="button" aria-label="Volver a la página principal">×</button>
+        <span class="focus-line top" aria-hidden="true"></span>
+        <output id="rsvp-output">Listo para comenzar</output>
+        <span class="focus-line bottom" aria-hidden="true"></span>
+      </div>
+      <div class="reader-controls">
+        <div class="progress-track"><progress id="reading-progress" max="100" value="0">0%</progress></div>
+        <div class="control-row">
+          <div class="inline-setting"><span>Velocidad</span><output id="modal-speed-output">300 ppm</output><input id="modal-speed-range" type="range" min="100" max="900" step="25" value="300" aria-label="Velocidad de lectura" /></div>
+          <button id="play-pause" class="pause-button" type="button" aria-label="Pausar lectura"><span class="pause-icon" aria-hidden="true">Ⅱ</span><span>Pausar</span></button>
+        </div>
+      </div>
+    </dialog>
 
     <script src="https://unpkg.com/mammoth@1.9.1/mammoth.browser.min.js"></script>
     <script src="script.js"></script>
