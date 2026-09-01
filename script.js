@@ -9,7 +9,6 @@ const speedOutput = document.querySelector('#speed-output');
 const modalSpeedOutput = document.querySelector('#modal-speed-output');
 const startButton = document.querySelector('#start-reading');
 const readerModal = document.querySelector('#reader-modal');
-const closeReader = document.querySelector('#close-reader');
 const playPauseButton = document.querySelector('#play-pause');
 const rsvpOutput = document.querySelector('#rsvp-output');
 const readingProgress = document.querySelector('#reading-progress');
@@ -45,33 +44,13 @@ function setSpeed(value) { speedRange.value = value; modalSpeedRange.value = val
 function prepareText() { words = normalizeText(textSource.value).split(' ').filter(Boolean); currentIndex = 0; updateWordCount(); }
 async function readPdfFile(file) { const pdfjsLib = await import(PDFJS_MODULE_URL); pdfjsLib.GlobalWorkerOptions.workerSrc = PDF_WORKER_URL; const pdf = await pdfjsLib.getDocument({ data: await file.arrayBuffer() }).promise; const pages = []; for (let number = 1; number <= pdf.numPages; number += 1) { const content = await (await pdf.getPage(number)).getTextContent(); pages.push(content.items.map((item) => item.str).join(' ')); } return pages.join('\n'); }
 async function extractFile(file) { if (file.name.toLowerCase().endsWith('.pdf')) return readPdfFile(file); if (file.name.toLowerCase().endsWith('.docx')) { if (!globalThis.mammoth) throw new Error('El lector de Word no está disponible.'); return (await globalThis.mammoth.extractRawText({ arrayBuffer: await file.arrayBuffer() })).value; } return new TextDecoder().decode(await file.arrayBuffer()); }
-async function processFile(file) {
-  if (!file) return;
-  const extension = file.name.split('.').pop()?.toLowerCase();
-  if (!['txt', 'pdf', 'docx'].includes(extension)) {
-    fileStatus.textContent = 'Usa un documento PDF, Word (.docx) o TXT.';
-    return;
-  }
-  fileStatus.textContent = `Procesando ${file.name}…`;
-  try {
-    textSource.value = await extractFile(file);
-    prepareText();
-    fileStatus.textContent = `${file.name} listo para leer`;
-  } catch (error) {
-    fileStatus.textContent = error.message || 'No fue posible leer el documento.';
-  }
-}
 
 textSource.addEventListener('input', updateWordCount);
-fileInput.addEventListener('change', async ({ target }) => { await processFile(target.files[0]); target.value = ''; });
-['dragenter', 'dragover'].forEach((eventName) => uploadBlock.addEventListener(eventName, (event) => { event.preventDefault(); uploadBlock.classList.add('is-dragging'); }));
-['dragleave', 'drop'].forEach((eventName) => uploadBlock.addEventListener(eventName, (event) => { event.preventDefault(); uploadBlock.classList.remove('is-dragging'); }));
-uploadBlock.addEventListener('drop', ({ dataTransfer }) => processFile(dataTransfer.files[0]));
+fileInput.addEventListener('change', async ({ target }) => { const [file] = target.files; if (!file) return; fileStatus.textContent = `Procesando ${file.name}…`; try { textSource.value = await extractFile(file); prepareText(); fileStatus.textContent = `${file.name} listo para leer`; } catch (error) { fileStatus.textContent = error.message || 'No fue posible leer el documento.'; } });
 speedRange.addEventListener('input', () => setSpeed(speedRange.value)); modalSpeedRange.addEventListener('input', () => setSpeed(modalSpeedRange.value));
 document.querySelectorAll('[data-size]').forEach((button) => button.addEventListener('click', () => setWordsPerScreen(button.dataset.size)));
 startButton.addEventListener('click', () => { prepareText(); if (!words.length) return; readerModal.showModal(); showCurrentChunk(); startReading(); });
 playPauseButton.addEventListener('click', () => timer ? stopReading() : startReading());
-closeReader.addEventListener('click', () => { stopReading(); readerModal.close(); });
 readerModal.addEventListener('cancel', () => stopReading());
 themeToggle.addEventListener('click', () => { const dark = document.documentElement.dataset.theme !== 'dark'; document.documentElement.dataset.theme = dark ? 'dark' : 'light'; themeToggle.setAttribute('aria-pressed', String(dark)); themeToggle.setAttribute('aria-label', dark ? 'Activar modo claro' : 'Activar modo oscuro'); themeToggle.innerHTML = `<span aria-hidden="true">${dark ? '☾' : '☼'}</span><span class="theme-label">${dark ? 'Oscuro' : 'Claro'}</span>`; });
 updateWordCount();
