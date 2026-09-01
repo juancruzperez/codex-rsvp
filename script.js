@@ -1,4 +1,5 @@
 const fileInput = document.querySelector('#document-input');
+const uploadBlock = document.querySelector('#upload-block');
 const textSource = document.querySelector('#text-source');
 const wordCount = document.querySelector('#word-count');
 const fileStatus = document.querySelector('#file-status');
