@@ -1,82 +1,406 @@
 <!doctype html>
+
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#f7f7f5" />
-    <title>claridad — lector RSVP</title>
-    <link rel="stylesheet" href="styles.css" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <meta
+      name="theme-color"
+      content="#f7f7f5"
+    />
+
+```
+<title>claridad — lector RSVP</title>
+
+<link
+  rel="stylesheet"
+  href="styles.css"
+/>
+```
+
   </head>
+
   <body>
     <main class="app-shell">
-      <header class="site-header">
-        <a class="wordmark" href="#" aria-label="Claridad, inicio">claridad<span>•</span></a>
-        <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Activar modo oscuro" aria-pressed="false">
-          <span aria-hidden="true">☼</span><span class="theme-label">Claro</span>
-        </button>
-      </header>
 
-      <section class="intro" aria-labelledby="app-title">
-        <p class="eyebrow">Lectura sin fricción</p>
-        <h1 id="app-title">Una palabra.<br /><em>Toda tu atención.</em></h1>
-        <p class="lede">Convierte cualquier texto en una lectura rápida, limpia y concentrada.</p>
-      </section>
+```
+  <!-- HEADER -->
+  <header class="site-header">
+    <a
+      class="wordmark"
+      href="#"
+      aria-label="Claridad, inicio"
+    >
+      claridad<span>•</span>
+    </a>
 
-      <section class="workspace" aria-label="Prepara tu lectura">
-        <div class="upload-block">
-          <label class="upload-card" for="document-input">
-            <span class="upload-icon" aria-hidden="true">↑</span>
-            <span><strong>Sube un documento</strong><small>PDF, Word o TXT</small></span>
-            <span class="browse">Explorar</span>
+    <button
+      id="theme-toggle"
+      class="theme-toggle"
+      type="button"
+      aria-label="Activar modo oscuro"
+      aria-pressed="false"
+    >
+      <span aria-hidden="true">☼</span>
+      <span class="theme-label">Claro</span>
+    </button>
+  </header>
+
+
+  <!-- INTRO -->
+  <section
+    class="intro"
+    aria-labelledby="app-title"
+  >
+    <p class="eyebrow">
+      Lectura sin fricción
+    </p>
+
+    <h1 id="app-title">
+      Una palabra.<br />
+      <em>Toda tu atención.</em>
+    </h1>
+
+    <p class="lede">
+      Convierte cualquier texto en una lectura
+      rápida, limpia y concentrada.
+    </p>
+  </section>
+
+
+  <!-- WORKSPACE -->
+  <section
+    class="workspace"
+    aria-label="Prepara tu lectura"
+  >
+
+    <!-- UPLOAD / DRAG & DROP -->
+    <div class="upload-block">
+
+      <label
+        class="upload-card"
+        for="document-input"
+      >
+        <span
+          class="upload-icon"
+          aria-hidden="true"
+        >
+          ↑
+        </span>
+
+        <span class="upload-content">
+          <strong>
+            Arrastra un documento aquí
+          </strong>
+
+          <small>
+            PDF, Word o TXT
+          </small>
+        </span>
+
+        <span class="browse">
+          Explorar
+        </span>
+      </label>
+
+      <input
+        id="document-input"
+        type="file"
+        accept="
+          .txt,
+          .pdf,
+          .docx,
+          text/plain,
+          application/pdf,
+          application/vnd.openxmlformats-officedocument.wordprocessingml.document
+        "
+      />
+
+      <p
+        id="file-status"
+        class="file-status"
+      >
+        o pega tu texto a continuación
+      </p>
+
+    </div>
+
+
+    <!-- TEXT INPUT -->
+    <div class="text-field">
+
+      <label for="text-source">
+        Texto
+      </label>
+
+      <textarea
+        id="text-source"
+        rows="9"
+        placeholder="Pega aquí lo que quieres leer..."
+      ></textarea>
+
+      <span id="word-count">
+        0 palabras
+      </span>
+
+    </div>
+
+
+    <!-- SETTINGS -->
+    <div
+      class="settings"
+      aria-label="Ajustes de lectura"
+    >
+
+      <!-- SPEED -->
+      <div class="setting">
+
+        <div class="setting-heading">
+
+          <label for="speed-range">
+            Velocidad
           </label>
-          <input id="document-input" type="file" accept=".txt,.pdf,.docx,text/plain,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
-          <p id="file-status" class="file-status">o pega tu texto a continuación</p>
+
+          <output id="speed-output">
+            300
+          </output>
+
+          <span>
+            ppm
+          </span>
+
         </div>
 
-        <div class="text-field">
-          <label for="text-source">Texto</label>
-          <textarea id="text-source" rows="9" placeholder="Pega aquí lo que quieres leer..."></textarea>
-          <span id="word-count">0 palabras</span>
+        <input
+          id="speed-range"
+          type="range"
+          min="100"
+          max="900"
+          step="25"
+          value="300"
+        />
+
+        <div class="range-labels">
+          <span>100</span>
+          <span>900</span>
         </div>
 
-        <div class="settings" aria-label="Ajustes de lectura">
-          <div class="setting">
-            <div class="setting-heading"><label for="speed-range">Velocidad</label><output id="speed-output">300</output><span>ppm</span></div>
-            <input id="speed-range" type="range" min="100" max="900" step="25" value="300" />
-            <div class="range-labels"><span>100</span><span>900</span></div>
-          </div>
-          <div class="setting">
-            <label>Palabras por pantalla</label>
-            <div id="chunk-size" class="segmented-control" role="group" aria-label="Palabras por pantalla">
-              <button type="button" data-size="1" aria-pressed="true">1</button>
-              <button type="button" data-size="2" aria-pressed="false">2</button>
-              <button type="button" data-size="3" aria-pressed="false">3</button>
-            </div>
-          </div>
-        </div>
-
-        <button id="start-reading" class="start-button" type="button" disabled>
-          <span>Comenzar lectura</span><span aria-hidden="true">→</span>
-        </button>
-      </section>
-    </main>
-
-    <dialog id="reader-modal" class="reader-modal" aria-label="Lector RSVP a pantalla completa">
-      <div class="reading-stage" aria-live="polite">
-        <span class="focus-line top" aria-hidden="true"></span>
-        <output id="rsvp-output">Listo para comenzar</output>
-        <span class="focus-line bottom" aria-hidden="true"></span>
       </div>
-      <div class="reader-controls">
-        <div class="progress-track"><progress id="reading-progress" max="100" value="0">0%</progress></div>
-        <div class="control-row">
-          <div class="inline-setting"><span>Velocidad</span><output id="modal-speed-output">300 ppm</output><input id="modal-speed-range" type="range" min="100" max="900" step="25" value="300" aria-label="Velocidad de lectura" /></div>
-          <button id="play-pause" class="pause-button" type="button" aria-label="Pausar lectura"><span class="pause-icon" aria-hidden="true">Ⅱ</span><span>Pausar</span></button>
-        </div>
-      </div>
-    </dialog>
 
-    <script src="https://unpkg.com/mammoth@1.9.1/mammoth.browser.min.js"></script>
-    <script src="script.js"></script>
+
+      <!-- WORDS PER SCREEN -->
+      <div class="setting">
+
+        <label>
+          Palabras por pantalla
+        </label>
+
+        <div
+          id="chunk-size"
+          class="segmented-control"
+          role="group"
+          aria-label="Palabras por pantalla"
+        >
+
+          <button
+            type="button"
+            data-size="1"
+            aria-pressed="true"
+          >
+            1
+          </button>
+
+          <button
+            type="button"
+            data-size="2"
+            aria-pressed="false"
+          >
+            2
+          </button>
+
+          <button
+            type="button"
+            data-size="3"
+            aria-pressed="false"
+          >
+            3
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- START -->
+    <button
+      id="start-reading"
+      class="start-button"
+      type="button"
+      disabled
+    >
+      <span>
+        Comenzar lectura
+      </span>
+
+      <span aria-hidden="true">
+        →
+      </span>
+    </button>
+
+  </section>
+
+</main>
+
+
+<!-- =====================================================
+     RSVP READER
+====================================================== -->
+
+<dialog
+  id="reader-modal"
+  class="reader-modal"
+  aria-label="Lector RSVP a pantalla completa"
+>
+
+  <!-- READING AREA -->
+  <div
+    class="reading-stage"
+    aria-live="polite"
+  >
+
+    <span
+      class="focus-line top"
+      aria-hidden="true"
+    ></span>
+
+    <output id="rsvp-output">
+      Listo para comenzar
+    </output>
+
+    <span
+      class="focus-line bottom"
+      aria-hidden="true"
+    ></span>
+
+  </div>
+
+
+  <!-- READER CONTROLS -->
+  <div class="reader-controls">
+
+    <!-- PROGRESS -->
+    <div class="progress-track">
+
+      <div class="progress-header">
+
+        <span>
+          Progreso
+        </span>
+
+        <output id="progress-output">
+          0%
+        </output>
+
+      </div>
+
+      <progress
+        id="reading-progress"
+        max="100"
+        value="0"
+      >
+        0%
+      </progress>
+
+    </div>
+
+
+    <!-- CONTROLS -->
+    <div class="control-row">
+
+      <!-- SPEED -->
+      <div class="inline-setting">
+
+        <span>
+          Velocidad
+        </span>
+
+        <output id="modal-speed-output">
+          300 ppm
+        </output>
+
+        <input
+          id="modal-speed-range"
+          type="range"
+          min="100"
+          max="900"
+          step="25"
+          value="300"
+          aria-label="Velocidad de lectura"
+        />
+
+      </div>
+
+
+      <!-- PLAY / PAUSE -->
+      <button
+        id="play-pause"
+        class="pause-button"
+        type="button"
+        aria-label="Pausar lectura"
+      >
+        <span
+          class="pause-icon"
+          aria-hidden="true"
+        >
+          Ⅱ
+        </span>
+
+        <span>
+          Pausar
+        </span>
+      </button>
+
+
+      <!-- CLOSE -->
+      <button
+        id="close-reader"
+        class="close-button"
+        type="button"
+        aria-label="Cerrar lector y volver al inicio"
+      >
+        <span
+          aria-hidden="true"
+        >
+          ×
+        </span>
+
+        <span>
+          Cerrar
+        </span>
+      </button>
+
+    </div>
+
+  </div>
+
+</dialog>
+
+
+<!-- =====================================================
+     EXTERNAL LIBRARIES
+====================================================== -->
+
+<script
+  src="https://unpkg.com/mammoth@1.9.1/mammoth.browser.min.js"
+></script>
+
+<script src="script.js"></script>
+```
+
   </body>
 </html>

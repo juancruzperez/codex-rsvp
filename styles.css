@@ -1,19 +1,1034 @@
-:root { color-scheme: light dark; --bg: #f7f7f5; --surface: #fff; --ink: #1d1d1b; --muted: #777771; --line: #deded8; --soft: #f0f0ec; --accent: #d8ff46; --accent-ink: #172000; --modal: #1e201b; --modal-ink: #f7f7f2; --modal-muted: #a8aaa2; font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg:#171815; --surface:#20211d; --ink:#f2f2ed; --muted:#aaa9a1; --line:#40413a; --soft:#292b26; } }
-:root[data-theme="dark"] { color-scheme: dark; --bg:#171815; --surface:#20211d; --ink:#f2f2ed; --muted:#aaa9a1; --line:#40413a; --soft:#292b26; }
-:root[data-theme="light"] { color-scheme: light; }
-* { box-sizing: border-box; }
-body { margin:0; min-height:100vh; background:var(--bg); color:var(--ink); }
-button, input, textarea { font:inherit; }
-button { cursor:pointer; }
-.app-shell { width:min(100% - 2.5rem, 980px); margin:auto; padding:1.6rem 0 4rem; }
-.site-header { display:flex; justify-content:space-between; align-items:center; }
-.wordmark, .reader-topbar p { color:var(--ink); font-size:1.05rem; font-weight:800; letter-spacing:-.06em; text-decoration:none; }.wordmark span,.reader-topbar p span { color:#a8cf19; }
-.theme-toggle { display:flex; align-items:center; gap:.5rem; padding:.45rem .7rem; color:var(--ink); background:transparent; border:1px solid var(--line); border-radius:999px; font-size:.78rem; }.theme-toggle span:first-child { font-size:1rem; }
-.intro { padding:clamp(4.6rem, 12vw, 8.5rem) 0 3rem; }.eyebrow { margin:0 0 1rem; color:var(--muted); font-size:.72rem; font-weight:750; letter-spacing:.13em; text-transform:uppercase; }.intro h1 { max-width:760px; margin:0; font-size:clamp(3rem, 8vw, 6.1rem); letter-spacing:-.075em; line-height:.9; }.intro h1 em { color:#809c16; font-weight:inherit; }.lede { max-width:470px; margin:1.75rem 0 0; color:var(--muted); font-size:1.08rem; line-height:1.55; }
-.workspace { padding:1.3rem; background:var(--surface); border:1px solid var(--line); border-radius:1.25rem; box-shadow:0 14px 45px rgba(30,30,20,.05); }.upload-card { display:flex; align-items:center; gap:.85rem; padding:1rem; border:1px dashed #b9baae; border-radius:.8rem; cursor:pointer; }.upload-card:hover { background:var(--soft); }.upload-icon { display:grid; place-items:center; width:2.4rem; height:2.4rem; background:var(--accent); border-radius:50%; color:var(--accent-ink); font-size:1.35rem; }.upload-card strong,.upload-card small { display:block; }.upload-card strong { font-size:.9rem; }.upload-card small,.file-status { color:var(--muted); font-size:.75rem; }.browse { margin-left:auto; padding:.45rem .7rem; border:1px solid var(--line); border-radius:.45rem; font-size:.75rem; font-weight:700; }.file-status { margin:.7rem 0 1.3rem; text-align:center; } #document-input { position:absolute; width:1px; height:1px; opacity:0; }
-.text-field { position:relative; }.text-field label,.setting>label { display:block; margin:0 0 .55rem; font-size:.76rem; font-weight:750; }.text-field textarea { width:100%; min-height:175px; padding:1rem 1rem 2rem; border:1px solid var(--line); border-radius:.8rem; outline:none; resize:vertical; background:var(--bg); color:var(--ink); line-height:1.5; }.text-field textarea:focus { border-color:#91ad23; box-shadow:0 0 0 3px rgba(168,207,25,.15); }.text-field span { position:absolute; right:.85rem; bottom:.65rem; color:var(--muted); font-size:.7rem; }
-.settings { display:grid; grid-template-columns:1.3fr 1fr; gap:2rem; margin:1.5rem 0; }.setting-heading { display:flex; align-items:baseline; gap:.35rem; }.setting-heading label { margin-right:auto; font-size:.76rem; font-weight:750; }.setting-heading output { font-size:1.3rem; font-weight:750; letter-spacing:-.04em; }.setting-heading span { color:var(--muted); font-size:.75rem; }.setting input[type="range"], .inline-setting input { width:100%; margin:.75rem 0 0; accent-color:#91ad23; }.range-labels { display:flex; justify-content:space-between; color:var(--muted); font-size:.68rem; }.segmented-control { display:grid; grid-template-columns:repeat(3,1fr); padding:3px; border:1px solid var(--line); border-radius:.55rem; }.segmented-control button { padding:.45rem; border:0; border-radius:.4rem; background:transparent; color:var(--muted); font-size:.78rem; }.segmented-control button[aria-pressed="true"] { background:var(--ink); color:var(--surface); font-weight:750; }.start-button { display:flex; justify-content:space-between; align-items:center; width:100%; padding:1rem 1.1rem; border:0; border-radius:.7rem; background:var(--accent); color:var(--accent-ink); font-weight:800; }.start-button:disabled { cursor:not-allowed; opacity:.42; }
-.reader-modal { width:100%; height:100%; max-width:none; max-height:none; margin:0; padding:0; border:0; background:var(--modal); color:var(--modal-ink); }.reader-modal::backdrop { background:var(--modal); }.reader-modal[open] { display:grid; grid-template-rows:1fr auto; }.reading-stage { display:grid; place-items:center; position:relative; min-height:0; padding:2rem; }.reading-stage output { max-width:min(92vw, 1100px); color:var(--modal-ink); font-size:clamp(3rem, 10vw, 9rem); font-weight:750; letter-spacing:-.075em; line-height:.9; text-align:center; }.focus-line { position:absolute; left:50%; width:2px; height:2.5rem; transform:translateX(-50%); background:var(--accent); }.focus-line.top { top:12%; }.focus-line.bottom { bottom:12%; }
-.reader-controls { padding:1rem 1.5rem 1.5rem; }.progress-track { padding-bottom:1.15rem; }.progress-track progress { width:100%; height:3px; accent-color:var(--accent); }.control-row { display:flex; align-items:end; justify-content:center; gap:1.5rem; }.inline-setting { display:grid; grid-template-columns:auto auto; gap:.25rem .5rem; color:var(--modal-muted); font-size:.72rem; }.inline-setting output { color:var(--modal-ink); font-variant-numeric:tabular-nums; }.inline-setting input { grid-column:1/-1; width:min(42vw, 280px); margin:.75rem 0 0; accent-color:var(--accent); }.pause-button { display:flex; align-items:center; gap:.55rem; padding:.75rem 1.1rem; border:0; border-radius:999px; background:var(--accent); color:var(--accent-ink); font-size:.8rem; font-weight:800; }.pause-icon { font-size:1rem; }
-@media (max-width:620px) { .app-shell{width:min(100% - 1.5rem,980px);padding-top:1rem}.intro{padding:4.5rem 0 2.5rem}.settings{grid-template-columns:1fr;gap:1.3rem}.reader-controls{padding:1rem}.control-row{align-items:center;gap:1rem}.reading-stage output{font-size:clamp(2.5rem,13vw,5rem)} }
+:root {
+color-scheme: light dark;
+
+--bg: #f7f7f5;
+--surface: #fff;
+--ink: #1d1d1b;
+--muted: #777771;
+--line: #deded8;
+--soft: #f0f0ec;
+
+--accent: #d8ff46;
+--accent-ink: #172000;
+
+--modal: #1e201b;
+--modal-ink: #f7f7f2;
+--modal-muted: #a8aaa2;
+
+font-family:
+ui-sans-serif,
+system-ui,
+-apple-system,
+BlinkMacSystemFont,
+"Segoe UI",
+sans-serif;
+}
+
+/* =========================================================
+DARK MODE — SYSTEM
+========================================================= */
+
+@media (prefers-color-scheme: dark) {
+:root:not([data-theme="light"]) {
+--bg: #171815;
+--surface: #20211d;
+--ink: #f2f2ed;
+--muted: #aaa9a1;
+--line: #40413a;
+--soft: #292b26;
+}
+}
+
+/* =========================================================
+DARK MODE — MANUAL
+========================================================= */
+
+:root {
+color-scheme: dark;
+
+--bg: #171815;
+--surface: #20211d;
+--ink: #f2f2ed;
+--muted: #aaa9a1;
+--line: #40413a;
+--soft: #292b26;
+}
+
+:root {
+color-scheme: light;
+}
+
+/* =========================================================
+GLOBAL
+========================================================= */
+
+* {
+  box-sizing: border-box;
+  }
+
+html {
+min-height: 100%;
+}
+
+body {
+margin: 0;
+min-height: 100vh;
+
+background: var(--bg);
+color: var(--ink);
+
+transition:
+background-color .2s ease,
+color .2s ease;
+}
+
+button,
+input,
+textarea {
+font: inherit;
+}
+
+button {
+cursor: pointer;
+}
+
+/* =========================================================
+MAIN APP
+========================================================= */
+
+.app-shell {
+width: min(100% - 2.5rem, 980px);
+margin: auto;
+padding: 1.6rem 0 4rem;
+}
+
+/* =========================================================
+HEADER
+========================================================= */
+
+.site-header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+
+.wordmark {
+color: var(--ink);
+font-size: 1.05rem;
+font-weight: 800;
+letter-spacing: -.06em;
+text-decoration: none;
+}
+
+.wordmark span {
+color: #a8cf19;
+}
+
+/* =========================================================
+THEME TOGGLE
+========================================================= */
+
+.theme-toggle {
+display: flex;
+align-items: center;
+gap: .5rem;
+
+padding: .45rem .7rem;
+
+color: var(--ink);
+background: transparent;
+
+border: 1px solid var(--line);
+border-radius: 999px;
+
+font-size: .78rem;
+
+transition:
+background-color .18s ease,
+border-color .18s ease;
+}
+
+.theme-toggle:hover {
+background: var(--soft);
+}
+
+.theme-toggle span:first-child {
+font-size: 1rem;
+}
+
+/* =========================================================
+INTRO
+========================================================= */
+
+.intro {
+padding:
+clamp(4.6rem, 12vw, 8.5rem)
+0
+3rem;
+}
+
+.eyebrow {
+margin: 0 0 1rem;
+
+color: var(--muted);
+
+font-size: .72rem;
+font-weight: 750;
+
+letter-spacing: .13em;
+text-transform: uppercase;
+}
+
+.intro h1 {
+max-width: 760px;
+
+margin: 0;
+
+font-size:
+clamp(3rem, 8vw, 6.1rem);
+
+letter-spacing: -.075em;
+line-height: .9;
+}
+
+.intro h1 em {
+color: #809c16;
+font-weight: inherit;
+}
+
+.lede {
+max-width: 470px;
+
+margin: 1.75rem 0 0;
+
+color: var(--muted);
+
+font-size: 1.08rem;
+line-height: 1.55;
+}
+
+/* =========================================================
+WORKSPACE
+========================================================= */
+
+.workspace {
+padding: 1.3rem;
+
+background: var(--surface);
+
+border: 1px solid var(--line);
+border-radius: 1.25rem;
+
+box-shadow:
+0 14px 45px rgba(30, 30, 20, .05);
+}
+
+/* =========================================================
+UPLOAD BLOCK
+========================================================= */
+
+.upload-block {
+position: relative;
+}
+
+/* =========================================================
+UPLOAD CARD
+========================================================= */
+
+.upload-card {
+display: flex;
+align-items: center;
+gap: .85rem;
+
+padding: 1rem;
+
+border: 1px dashed #b9baae;
+border-radius: .8rem;
+
+cursor: pointer;
+
+transition:
+background-color .18s ease,
+border-color .18s ease,
+border-style .18s ease,
+transform .18s ease,
+box-shadow .18s ease;
+}
+
+.upload-card:hover {
+background: var(--soft);
+}
+
+/* =========================================================
+DRAG & DROP — ACTIVE
+========================================================= */
+
+.upload-card.is-dragover {
+background: var(--soft);
+
+border-color: #91ad23;
+border-style: solid;
+
+transform: scale(1.01);
+
+box-shadow:
+0 0 0 4px rgba(168, 207, 25, .12);
+}
+
+/* =========================================================
+FILE PROCESSING
+========================================================= */
+
+.upload-card.is-processing {
+opacity: .6;
+cursor: wait;
+pointer-events: none;
+}
+
+/* =========================================================
+UPLOAD ICON
+========================================================= */
+
+.upload-icon {
+display: grid;
+place-items: center;
+
+width: 2.4rem;
+height: 2.4rem;
+
+flex: 0 0 2.4rem;
+
+background: var(--accent);
+
+border-radius: 50%;
+
+color: var(--accent-ink);
+
+font-size: 1.35rem;
+font-weight: 600;
+}
+
+/* =========================================================
+UPLOAD CONTENT
+========================================================= */
+
+.upload-content {
+min-width: 0;
+}
+
+.upload-card strong,
+.upload-card small {
+display: block;
+}
+
+.upload-card strong {
+font-size: .9rem;
+}
+
+.upload-card small {
+margin-top: .15rem;
+
+color: var(--muted);
+
+font-size: .75rem;
+}
+
+/* =========================================================
+BROWSE BUTTON
+========================================================= */
+
+.browse {
+margin-left: auto;
+
+padding: .45rem .7rem;
+
+border: 1px solid var(--line);
+border-radius: .45rem;
+
+font-size: .75rem;
+font-weight: 700;
+
+white-space: nowrap;
+}
+
+/* =========================================================
+FILE INPUT
+========================================================= */
+
+#document-input {
+position: absolute;
+
+width: 1px;
+height: 1px;
+
+opacity: 0;
+
+pointer-events: none;
+}
+
+/* =========================================================
+FILE STATUS
+========================================================= */
+
+.file-status {
+margin: .7rem 0 1.3rem;
+
+color: var(--muted);
+
+font-size: .75rem;
+
+text-align: center;
+
+min-height: 1.1rem;
+}
+
+/* =========================================================
+TEXT FIELD
+========================================================= */
+
+.text-field {
+position: relative;
+}
+
+.text-field label,
+.setting > label {
+display: block;
+
+margin: 0 0 .55rem;
+
+font-size: .76rem;
+font-weight: 750;
+}
+
+/* =========================================================
+TEXTAREA
+========================================================= */
+
+.text-field textarea {
+width: 100%;
+min-height: 175px;
+
+padding:
+1rem
+1rem
+2rem;
+
+border: 1px solid var(--line);
+border-radius: .8rem;
+
+outline: none;
+resize: vertical;
+
+background: var(--bg);
+color: var(--ink);
+
+line-height: 1.5;
+
+transition:
+border-color .18s ease,
+box-shadow .18s ease;
+}
+
+.text-field textarea:focus {
+border-color: #91ad23;
+
+box-shadow:
+0 0 0 3px rgba(168, 207, 25, .15);
+}
+
+.text-field span {
+position: absolute;
+
+right: .85rem;
+bottom: .65rem;
+
+color: var(--muted);
+
+font-size: .7rem;
+}
+
+/* =========================================================
+SETTINGS
+========================================================= */
+
+.settings {
+display: grid;
+
+grid-template-columns:
+1.3fr
+1fr;
+
+gap: 2rem;
+
+margin: 1.5rem 0;
+}
+
+/* =========================================================
+SETTING HEADING
+========================================================= */
+
+.setting-heading {
+display: flex;
+align-items: baseline;
+
+gap: .35rem;
+}
+
+.setting-heading label {
+margin-right: auto;
+
+font-size: .76rem;
+font-weight: 750;
+}
+
+.setting-heading output {
+font-size: 1.3rem;
+font-weight: 750;
+
+letter-spacing: -.04em;
+
+font-variant-numeric: tabular-nums;
+}
+
+.setting-heading span {
+color: var(--muted);
+
+font-size: .75rem;
+}
+
+/* =========================================================
+RANGE INPUTS
+========================================================= */
+
+.setting input[type="range"],
+.inline-setting input {
+width: 100%;
+
+margin: .75rem 0 0;
+
+accent-color: #91ad23;
+}
+
+.range-labels {
+display: flex;
+justify-content: space-between;
+
+color: var(--muted);
+
+font-size: .68rem;
+}
+
+/* =========================================================
+SEGMENTED CONTROL
+========================================================= */
+
+.segmented-control {
+display: grid;
+
+grid-template-columns:
+repeat(3, 1fr);
+
+padding: 3px;
+
+border: 1px solid var(--line);
+border-radius: .55rem;
+}
+
+.segmented-control button {
+padding: .45rem;
+
+border: 0;
+border-radius: .4rem;
+
+background: transparent;
+color: var(--muted);
+
+font-size: .78rem;
+
+transition:
+background-color .18s ease,
+color .18s ease;
+}
+
+.segmented-control button:hover {
+background: var(--soft);
+}
+
+.segmented-control button[aria-pressed="true"] {
+background: var(--ink);
+color: var(--surface);
+
+font-weight: 750;
+}
+
+/* =========================================================
+START BUTTON
+========================================================= */
+
+.start-button {
+display: flex;
+justify-content: space-between;
+align-items: center;
+
+width: 100%;
+
+padding: 1rem 1.1rem;
+
+border: 0;
+border-radius: .7rem;
+
+background: var(--accent);
+color: var(--accent-ink);
+
+font-weight: 800;
+
+transition:
+opacity .18s ease,
+transform .18s ease;
+}
+
+.start-button:not(:disabled):hover {
+transform: translateY(-1px);
+}
+
+.start-button:disabled {
+cursor: not-allowed;
+opacity: .42;
+}
+
+/* =========================================================
+READER MODAL
+========================================================= */
+
+.reader-modal {
+width: 100%;
+height: 100%;
+
+max-width: none;
+max-height: none;
+
+margin: 0;
+padding: 0;
+
+border: 0;
+
+background: var(--modal);
+color: var(--modal-ink);
+}
+
+.reader-modal::backdrop {
+background: var(--modal);
+}
+
+.reader-modal[open] {
+display: grid;
+
+grid-template-rows:
+1fr
+auto;
+}
+
+/* =========================================================
+READING STAGE
+========================================================= */
+
+.reading-stage {
+display: grid;
+place-items: center;
+
+position: relative;
+
+min-height: 0;
+
+padding: 2rem;
+}
+
+.reading-stage output {
+max-width:
+min(92vw, 1100px);
+
+color: var(--modal-ink);
+
+font-size:
+clamp(3rem, 10vw, 9rem);
+
+font-weight: 750;
+
+letter-spacing: -.075em;
+line-height: .9;
+
+text-align: center;
+
+overflow-wrap: anywhere;
+}
+
+/* =========================================================
+FOCUS LINES
+========================================================= */
+
+.focus-line {
+position: absolute;
+
+left: 50%;
+
+width: 2px;
+height: 2.5rem;
+
+transform: translateX(-50%);
+
+background: var(--accent);
+}
+
+.focus-line.top {
+top: 12%;
+}
+
+.focus-line.bottom {
+bottom: 12%;
+}
+
+/* =========================================================
+READER CONTROLS
+========================================================= */
+
+.reader-controls {
+padding:
+1rem
+1.5rem
+1.5rem;
+
+background:
+linear-gradient(
+to bottom,
+rgba(30, 32, 27, .85),
+var(--modal)
+);
+}
+
+/* =========================================================
+PROGRESS
+========================================================= */
+
+.progress-track {
+padding-bottom: 1.15rem;
+}
+
+.progress-header {
+display: flex;
+
+align-items: center;
+justify-content: space-between;
+
+margin-bottom: .5rem;
+
+color: var(--modal-muted);
+
+font-size: .7rem;
+}
+
+.progress-header output {
+color: var(--modal-ink);
+
+font-weight: 750;
+
+font-variant-numeric: tabular-nums;
+}
+
+/* =========================================================
+PROGRESS BAR
+========================================================= */
+
+.progress-track progress {
+display: block;
+
+width: 100%;
+height: 4px;
+
+margin: 0;
+
+border: 0;
+
+appearance: none;
+-webkit-appearance: none;
+
+background: rgba(255, 255, 255, .12);
+
+accent-color: var(--accent);
+}
+
+/* Chromium / WebKit */
+
+.progress-track progress::-webkit-progress-bar {
+background: rgba(255, 255, 255, .12);
+
+border-radius: 999px;
+}
+
+.progress-track progress::-webkit-progress-value {
+background: var(--accent);
+
+border-radius: 999px;
+
+transition: width .15s linear;
+}
+
+/* Firefox */
+
+.progress-track progress::-moz-progress-bar {
+background: var(--accent);
+
+border-radius: 999px;
+
+transition: width .15s linear;
+}
+
+/* =========================================================
+CONTROL ROW
+========================================================= */
+
+.control-row {
+display: flex;
+
+align-items: flex-end;
+justify-content: center;
+
+gap: 1.5rem;
+}
+
+/* =========================================================
+INLINE SPEED SETTING
+========================================================= */
+
+.inline-setting {
+display: grid;
+
+grid-template-columns:
+auto
+auto;
+
+gap: .25rem .5rem;
+
+color: var(--modal-muted);
+
+font-size: .72rem;
+}
+
+.inline-setting output {
+color: var(--modal-ink);
+
+font-variant-numeric: tabular-nums;
+}
+
+.inline-setting input {
+grid-column: 1 / -1;
+
+width: min(42vw, 280px);
+
+margin: .75rem 0 0;
+
+accent-color: var(--accent);
+}
+
+/* =========================================================
+PAUSE BUTTON
+========================================================= */
+
+.pause-button {
+display: flex;
+
+align-items: center;
+
+gap: .55rem;
+
+padding: .75rem 1.1rem;
+
+border: 0;
+border-radius: 999px;
+
+background: var(--accent);
+color: var(--accent-ink);
+
+font-size: .8rem;
+font-weight: 800;
+
+white-space: nowrap;
+}
+
+/* =========================================================
+CLOSE BUTTON
+========================================================= */
+
+.close-button {
+display: flex;
+
+align-items: center;
+
+gap: .45rem;
+
+padding: .75rem 1rem;
+
+border: 1px solid var(--modal-muted);
+border-radius: 999px;
+
+background: transparent;
+color: var(--modal-ink);
+
+font-size: .8rem;
+font-weight: 700;
+
+white-space: nowrap;
+
+transition:
+background-color .18s ease,
+border-color .18s ease;
+}
+
+.close-button:hover {
+background: rgba(255, 255, 255, .08);
+
+border-color: var(--modal-ink);
+}
+
+.close-button span:first-child {
+font-size: 1.2rem;
+line-height: 1;
+}
+
+/* =========================================================
+PAUSE ICON
+========================================================= */
+
+.pause-icon {
+font-size: 1rem;
+line-height: 1;
+}
+
+/* =========================================================
+MOBILE
+========================================================= */
+
+@media (max-width: 620px) {
+
+.app-shell {
+width:
+min(
+100% - 1.5rem,
+980px
+);
+
+
+padding-top: 1rem;
+
+
+}
+
+.intro {
+padding:
+4.5rem
+0
+2.5rem;
+}
+
+.settings {
+grid-template-columns: 1fr;
+
+
+gap: 1.3rem;
+
+
+}
+
+.reader-controls {
+padding: 1rem;
+}
+
+.control-row {
+align-items: center;
+
+
+flex-wrap: wrap;
+
+gap: .8rem;
+
+
+}
+
+.inline-setting {
+width: 100%;
+}
+
+.inline-setting input {
+width: 100%;
+}
+
+.reading-stage {
+padding: 1.25rem;
+}
+
+.reading-stage output {
+font-size:
+clamp(
+2.5rem,
+13vw,
+5rem
+);
+}
+
+.close-button,
+.pause-button {
+flex: 1;
+justify-content: center;
+}
+
+}
+
+/* =========================================================
+VERY SMALL SCREENS
+========================================================= */
+
+@media (max-width: 420px) {
+
+.workspace {
+padding: 1rem;
+}
+
+.upload-card {
+flex-wrap: wrap;
+}
+
+.upload-content {
+flex: 1;
+}
+
+.browse {
+width: 100%;
+
+
+margin-left: 0;
+
+text-align: center;
+
+
+}
+
+.control-row {
+display: grid;
+
+
+grid-template-columns:
+  1fr
+  1fr;
+
+
+}
+
+.inline-setting {
+grid-column: 1 / -1;
+}
+
+.pause-button,
+.close-button {
+width: 100%;
+}
+
+}
