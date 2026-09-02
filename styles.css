@@ -916,9 +916,9 @@ min(
 980px
 );
 
-
+```
 padding-top: 1rem;
-
+```
 
 }
 
@@ -932,9 +932,9 @@ padding:
 .settings {
 grid-template-columns: 1fr;
 
-
+```
 gap: 1.3rem;
-
+```
 
 }
 
@@ -945,11 +945,11 @@ padding: 1rem;
 .control-row {
 align-items: center;
 
-
+```
 flex-wrap: wrap;
 
 gap: .8rem;
-
+```
 
 }
 
@@ -1003,22 +1003,22 @@ flex: 1;
 .browse {
 width: 100%;
 
-
+```
 margin-left: 0;
 
 text-align: center;
-
+```
 
 }
 
 .control-row {
 display: grid;
 
-
+```
 grid-template-columns:
   1fr
   1fr;
-
+```
 
 }
 

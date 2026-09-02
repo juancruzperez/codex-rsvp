@@ -559,7 +559,7 @@ try {
 const extractedText =
 await extractFile(file);
 
-
+```
 textSource.value =
   extractedText;
 
@@ -574,7 +574,7 @@ if (!words.length) {
 
 fileStatus.textContent =
   `${file.name} listo para leer`;
-
+```
 
 } catch (error) {
 console.error(
@@ -692,13 +692,14 @@ event.relatedTarget
 return;
 }
 
+```
   if (uploadCard) {
     uploadCard.classList.remove(
       'is-dragover'
     );
   }
 }
-
+```
 
 );
 
@@ -711,7 +712,7 @@ uploadCard.classList.remove(
 );
 }
 
-
+```
   const files =
     event.dataTransfer.files;
 
@@ -723,7 +724,7 @@ uploadCard.classList.remove(
 
   await processFile(file);
 }
-
+```
 
 );
 }
@@ -900,6 +901,7 @@ const dark =
 document.documentElement.dataset.theme !==
 'dark';
 
+```
 document.documentElement.dataset.theme =
   dark
     ? 'dark'
@@ -926,7 +928,7 @@ themeToggle.innerHTML =
       ? 'Oscuro'
       : 'Claro'
   }</span>`;
-
+```
 
 }
 );
